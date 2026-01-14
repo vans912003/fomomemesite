@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fomo Meme Gallery</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(to bottom, #516AF6, #ACB8F9);
+      min-height: 100vh;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 12px 16px;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .logo {
+      width: 24px;
+      height: 24px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .random-btn {
+      background: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .x-btn {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .x-logo {
+      width: 16px;
+      height: 16px;
+      display: block;
+      filter: invert(1);
+    }
+
+    .random-view {
+      display: none;
+      padding: 24px 16px 0;
+      text-align: center;
+    }
+
+    .random-view img {
+      max-width: 300px;
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .gallery {
+      padding: 16px;
+      column-count: 4;
+      column-gap: 16px;
+    }
+
+    .meme {
+      break-inside: avoid;
+      margin-bottom: 12px;
+    }
+
+    .meme img {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 1200px) {
+      .gallery { column-count: 3; }
+    }
+
+    @media (max-width: 768px) {
+      .gallery { column-count: 2; }
+    }
+
+    @media (max-width: 480px) {
+      .gallery { column-count: 2; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <img src="fomologo.svg" alt="Fomo" class="logo" />
+      <span>Meme Gallery</span>
+    </div>
+    <div class="header-actions">
+      <button id="randomBtn" class="random-btn">👀 Random Meme</button>
+      <a href="https://x.com/tryfomo" target="_blank" rel="noopener" class="x-btn">
+        <img src="xlogo.svg" alt="X" class="x-logo" />
+      </a>
+    </div>
+  </div>
+</header>
+
+<div id="randomView" class="random-view"></div>
+<div id="gallery" class="gallery"></div>
+
+<script>
+  const TOTAL_MEMES = 214;
+  const gallery = document.getElementById('gallery');
+  const randomView = document.getElementById('randomView');
+  const randomBtn = document.getElementById('randomBtn');
+
+  console.log('Fomo Meme Gallery loaded');
+
+  // Build gallery (fm214 → fm1)
+  for (let i = TOTAL_MEMES; i >= 1; i--) {
+    const div = document.createElement('div');
+    div.className = 'meme';
+
+    const img = document.createElement('img');
+    img.src = `fm${i}.webp`;
+    img.loading = 'lazy';
+
+    div.appendChild(img);
+    gallery.appendChild(div);
+  }
+
+  // Load random meme (preview only)
+  randomBtn.addEventListener('click', () => {
+    const rand = Math.floor(Math.random() * TOTAL_MEMES) + 1;
+    randomView.innerHTML = `<img src="fm${rand}.webp" />`;
+    randomView.style.display = 'block';
+    randomView.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>
+
+</body>
+</html>
